@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sahibullab/src/models/link.dart';
+import 'package:sahibullab/src/entities/link.dart';
 import 'package:sahibullab/src/widgets/app_card.dart';
 import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,20 +56,22 @@ class LinkItem extends StatelessWidget {
           },
           child: AppCard(
             hMargin: 0,
-            // color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (links[index].icon != null)
                   Icon(
                     (links[index].icon == null) ? null : links[index].icon,
-                    color: Colors.white,
+                    // color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                   ),
                 const SizedBox(width: 10),
                 Text(
                   links[index].content!,
                   style: AppTextStyle.normal.copyWith(
-                    color: Colors.white,
+                    // color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 // const Spacer(),

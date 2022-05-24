@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sahibullab/src/controllers/stories_controller.dart';
+import 'package:sahibullab/src/helpers/helpers.dart';
 import 'package:sahibullab/src/widgets/storie_card.dart';
 
 class StoriesView extends StatelessWidget {
@@ -20,13 +21,14 @@ class StoriesView extends StatelessWidget {
           var item = controller.stories[index];
 
           return InkWell(
-            onTap: () => controller.launchStorie(item.link.toString()),
+            onTap: () => Helpers.launchURL(item.link.toString()),
             child: StorieCard(
               logoUrl: item.logo ?? "",
               title: item.title ?? "",
               author: item.author ?? "",
               pubDate: item.datePublished ?? "",
               thumbnailUrl: item.thumbnail ?? "",
+              onTap: () => Helpers.launchURL(item.link.toString()),
             ),
           );
         },
@@ -52,14 +54,14 @@ class StoriesView extends StatelessWidget {
                 children: [
                   for (var item in controller.stories)
                     InkWell(
-                      onTap: () =>
-                          controller.launchStorie(item.link.toString()),
+                      onTap: () => Helpers.launchURL(item.link.toString()),
                       child: StorieCard(
                         logoUrl: item.logo ?? "",
                         title: item.title ?? "",
                         author: item.author ?? "",
                         pubDate: item.datePublished ?? "",
                         thumbnailUrl: item.thumbnail ?? "",
+                        onTap: () => Helpers.launchURL(item.link.toString()),
                       ),
                     ),
                 ],

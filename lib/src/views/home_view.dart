@@ -1,84 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:sahibullab/src/controllers/user_controller.dart';
+import 'package:sahibullab/src/helpers/helpers.dart';
+import 'package:sahibullab/src/widgets/app_card.dart';
 import 'package:sahibullab/src/widgets/app_tabbar.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../settings/app_theme.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class HomeView extends StatelessWidget {
+  HomeView({Key? key}) : super(key: key);
 
-  static const routeName = '/';
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  // late ScrollController _scrollController;
-
-  // void changeAppBarState() {
-  //   if (_scrollController.offset > 50) {
-  //     _homeController.changeOpacity(_scrollController.offset / 100 > 1.0
-  //         ? 1.0
-  //         : _scrollController.offset / 100);
-  //   } else if (_scrollController.offset <= 50) {
-  //     _homeController.changeOpacity(_scrollController.offset / 100);
-  //   }
-  // }
+  final controller = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    // _scrollController = ScrollController(
-    //     initialScrollOffset: _homeController.initialScrollOffset);
-    // _scrollController.addListener(changeAppBarState);
-
-    // return AnimatedBuilder(
-    //   animation: _homeController,
-    //   builder: (context, child) {
-    //     return Scaffold(
-    //       backgroundColor: ColorPalletes.bgDarkColor,
-    //       // appBar:
-    //       body: SingleChildScrollView(
-    //         controller: _scrollController,
-    //         child: SizedBox(
-    //           height: MediaQuery.of(context).size.height,
-    //           width: MediaQuery.of(context).size.width,
-    //           child: ListView(
-    //             children: [
-    //               // AppBar
-    //               MyAppBar(),
-
-    //               // Header
-    //               const HomeHeader(),
-
-    //               SizedBox(
-    //                 height: 500,
-    //                 width: MediaQuery.of(context).size.width,
-    //               ),
-
-    //               // Footer
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //       floatingActionButton: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           IconButton(
-    //             onPressed: () {},
-    //             icon: const Icon(IconlyBroken.add_user),
-    //           ),
-    //           IconButton(
-    //             onPressed: () {},
-    //             icon: const Icon(IconlyBroken.add_user),
-    //           ),
-    //         ],
-    //       ),
-    //       floatingActionButtonLocation:
-    //           FloatingActionButtonLocation.startDocked,
-    //     );
-    //   },
-    // );
     return ScreenTypeLayout.builder(
       mobile: (context) => Scaffold(
         body: Container(
@@ -101,23 +39,88 @@ class _HomeViewState extends State<HomeView> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       height: 140,
+                      width: 140,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
-                        child: Image.asset("assets/images/my-snf.jpeg"),
+                        child: Obx(
+                          () => controller.isLoading.value
+                              ? Center(
+                                  child: SpinKitFadingCircle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              : CachedNetworkImage(
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    "assets/images/my-snf.jpeg",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  imageUrl: controller.user.value.avatarUrl
+                                      .toString(),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      "👋  hi, I am Sahibul",
-                      style: AppTextStyle.title,
+                    Obx(
+                      () => controller.isLoading.value
+                          ? Center(
+                              child: SpinKitThreeBounce(
+                                color: Theme.of(context).primaryColor,
+                                size: 20,
+                              ),
+                            )
+                          : Text(
+                              "👋  hi, I am ${controller.user.value.name?.split(' ').first}",
+                              style: AppTextStyle.title,
+                              textAlign: TextAlign.center,
+                            ),
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      "Software Developer",
-                      style: AppTextStyle.small.copyWith(
-                        color: Colors.grey,
-                      ),
+                    Obx(
+                      () => controller.isLoading.value
+                          ? Center(
+                              child: SpinKitThreeBounce(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.2),
+                                size: 20,
+                              ),
+                            )
+                          : Text(
+                              "Software Developer",
+                              style: AppTextStyle.small.copyWith(
+                                color: Colors.grey,
+                              ),
+                            ),
                     ),
+                    const SizedBox(height: 60),
+                    InkWell(
+                      onTap: () => Helpers.launchURL(
+                          "https://api.whatsapp.com/send?phone=6282370083327"),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(1.0),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [AppShadow.card],
+                          border: Border.all(
+                            color: Colors.grey.shade100,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 25,
+                        ),
+                        child: Text(
+                          "💬  Whatsapp",
+                          style: AppTextStyle.normal.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -151,53 +154,6 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      // desktop: (context) => AnimatedBuilder(
-      //   // animation: _homeController,
-      //   builder: (context, child) {
-      //     return Scaffold(
-      //       backgroundColor: ColorPalletes.bgDarkColor,
-      //       // appBar:
-      //       body: SingleChildScrollView(
-      //         controller: _scrollController,
-      //         child: SizedBox(
-      //           height: MediaQuery.of(context).size.height,
-      //           width: MediaQuery.of(context).size.width,
-      //           child: ListView(
-      //             children: [
-      //               // AppBar
-      //               MyAppBar(),
-
-      //               // Header
-      //               const HomeHeader(),
-
-      //               SizedBox(
-      //                 height: 500,
-      //                 width: MediaQuery.of(context).size.width,
-      //               ),
-
-      //               // Footer
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //       floatingActionButton: Column(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           IconButton(
-      //             onPressed: () {},
-      //             icon: const Icon(IconlyBroken.add_user),
-      //           ),
-      //           IconButton(
-      //             onPressed: () {},
-      //             icon: const Icon(IconlyBroken.add_user),
-      //           ),
-      //         ],
-      //       ),
-      //       floatingActionButtonLocation:
-      //           FloatingActionButtonLocation.startDocked,
-      //     );
-      //   },
-      // ),
       tablet: (context) => Container(),
     );
   }

@@ -39,7 +39,7 @@ List<TabPair> TabPairs = [
     ),
     view: const Center(
       child: Text(
-        'Steps here',
+        'Coming soon!',
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.w600,
@@ -53,7 +53,7 @@ List<TabPair> TabPairs = [
     ),
     view: const Center(
       child: Text(
-        'Steps here',
+        'Coming soon!',
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.w600,

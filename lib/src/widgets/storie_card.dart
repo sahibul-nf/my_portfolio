@@ -1,25 +1,27 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sahibullab/src/settings/app_theme.dart';
-import 'package:sahibullab/src/widgets/app_card.dart';
 
 class StorieCard extends StatelessWidget {
-  const StorieCard(
-      {Key? key,
-      required this.logoUrl,
-      required this.title,
-      required this.pubDate,
-      required this.thumbnailUrl,
-      required this.author})
-      : super(key: key);
+  const StorieCard({
+    Key? key,
+    required this.logoUrl,
+    required this.title,
+    required this.pubDate,
+    required this.thumbnailUrl,
+    required this.author,
+    required this.onTap,
+    this.height,
+  }) : super(key: key);
 
   final String logoUrl;
   final String title;
   final String pubDate;
   final String thumbnailUrl;
   final String author;
+  final void Function() onTap;
+  final double? height;
 
   bool isNewStorie(DateTime pubDate) {
     var timeNow = DateTime.now();
@@ -36,10 +38,10 @@ class StorieCard extends StatelessWidget {
 
     return Container(
       width: 320,
-      height: 460,
+      height: height,
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: 10,
+        // vertical: 10,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -52,7 +54,7 @@ class StorieCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: 26),
           Row(
             children: [
               ClipRRect(
@@ -110,91 +112,52 @@ class StorieCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                thumbnailUrl,
-                height: 200,
-                width: double.infinity,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.cover,
-              )
-              // CachedNetworkImage(
-              //   placeholder: (context, url) => Image.asset(
-              //     "assets/images/Group 1.png",
-              //     fit: BoxFit.cover,
-              //   ),
-              //   imageUrl:
-              //       "https://cdn-images-1.medium.com/max/1024/0*hB6T-lilpcaIf-y4",
-              // height: 200,
-              // width: double.infinity,
-              //   fit: BoxFit.cover,
-              // ),
+            borderRadius: BorderRadius.circular(20),
+            child: CachedNetworkImage(
+              placeholder: (context, url) => Center(
+                child: SpinKitFadingCircle(
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                ),
               ),
-          const SizedBox(height: 10),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     IconButton(
-          //       padding: const EdgeInsets.all(0),
-          //       onPressed: () {},
-          //       icon: Container(
-          //         padding: const EdgeInsets.symmetric(
-          //           horizontal: 10,
-          //           vertical: 5,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(10),
-          //           color: Colors.red.shade100,
-          //           boxShadow: [AppShadow.card],
-          //         ),
-          //         child: Text(
-          //           "🚀",
-          //           style: AppTextStyle.bigTitle,
-          //         ),
-          //       ),
-          //     ),
-          //     const SizedBox(width: 10),
-          //     IconButton(
-          //       padding: const EdgeInsets.all(0),
-          //       onPressed: () {},
-          //       icon: Container(
-          //         padding: const EdgeInsets.symmetric(
-          //           horizontal: 10,
-          //           vertical: 5,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(10),
-          //           color: Colors.orange.shade100,
-          //           boxShadow: [AppShadow.card],
-          //         ),
-          //         child: Text(
-          //           "🔥",
-          //           style: AppTextStyle.bigTitle,
-          //         ),
-          //       ),
-          //     ),
-          //     const Spacer(),
-          //     IconButton(
-          //       padding: const EdgeInsets.all(0),
-          //       onPressed: () {},
-          //       icon: Container(
-          //         padding: const EdgeInsets.symmetric(
-          //           horizontal: 10,
-          //           vertical: 5,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(10),
-          //           color: Colors.blue.shade100,
-          //           boxShadow: [AppShadow.card],
-          //         ),
-          //         child: Text(
-          //           "📁",
-          //           style: AppTextStyle.bigTitle,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+              imageUrl: thumbnailUrl,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [AppShadow.card],
+              border: Border.all(
+                color: Colors.grey.shade100,
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: InkWell(
+              onTap: onTap,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.link,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "Read More",
+                    style: AppTextStyle.normal.copyWith(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
