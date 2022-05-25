@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahibullab/src/views/about_view.dart';
 import 'package:sahibullab/src/views/stories_view.dart';
 import 'package:sahibullab/src/views/works_view.dart';
 import 'package:sahibullab/src/widgets/app_card.dart';
@@ -51,15 +52,7 @@ List<TabPair> TabPairs = [
     tab: const Tab(
       text: 'Me 👨🏻‍💻',
     ),
-    view: const Center(
-      child: Text(
-        'Coming soon!',
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
+    view: AboutView(),
   ),
 ];
 

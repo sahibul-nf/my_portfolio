@@ -23,7 +23,7 @@ class WorksView extends StatelessWidget {
           title: item.title!,
           description: item.description!,
           color: item.techColor!,
-          techStack: controller.getTechImage(item.techStack!),
+          techStack: Helpers.getTechImage(item.techStack!),
           stars: item.stars!,
           forks: item.forks!,
           onTap: () => Helpers.launchURL(item.link!),

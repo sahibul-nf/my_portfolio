@@ -9,7 +9,7 @@ import 'package:sahibullab/src/widgets/app_tabbar.dart';
 
 import '../settings/app_theme.dart';
 
-//  Delpoyment 
+//  Delpoyment
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
@@ -153,6 +153,98 @@ class HomeView extends StatelessWidget {
               )
             ],
           ),
+        ),
+      ),
+      desktop: (context) => Scaffold(
+        body: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 120),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [AppShadow.card],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              height: 140,
+              width: 140,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Obx(
+                  () => controller.isLoading.value
+                      ? Center(
+                          child: SpinKitFadingCircle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          errorWidget: (context, url, error) => Image.asset(
+                            "assets/images/my-snf.jpeg",
+                            fit: BoxFit.cover,
+                          ),
+                          imageUrl: controller.user.value.avatarUrl.toString(),
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Obx(
+              () => controller.isLoading.value
+                  ? Center(
+                      child: SpinKitThreeBounce(
+                        color: Theme.of(context).primaryColor,
+                        size: 20,
+                      ),
+                    )
+                  : Text(
+                      "👋  hi, I am ${controller.user.value.name?.split(' ').first}",
+                      style: AppTextStyle.title,
+                      textAlign: TextAlign.center,
+                    ),
+            ),
+            const SizedBox(height: 6),
+            Obx(
+              () => controller.isLoading.value
+                  ? Center(
+                      child: SpinKitThreeBounce(
+                        color: Theme.of(context).primaryColor.withOpacity(0.2),
+                        size: 20,
+                      ),
+                    )
+                  : Text(
+                      "Software Developer",
+                      style: AppTextStyle.small.copyWith(
+                        color: Colors.grey,
+                      ),
+                    ),
+            ),
+            const SizedBox(height: 60),
+            InkWell(
+              onTap: () => Helpers.launchURL(
+                  "https://api.whatsapp.com/send?phone=6282370083327"),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(1.0),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [AppShadow.card],
+                  border: Border.all(
+                    color: Colors.grey.shade100,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 25,
+                ),
+                child: Text(
+                  "💬  Whatsapp",
+                  style: AppTextStyle.normal.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
       tablet: (context) => Container(),
