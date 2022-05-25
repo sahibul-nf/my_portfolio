@@ -2,11 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sahibullab/src/controllers/user_controller.dart';
 import 'package:sahibullab/src/helpers/helpers.dart';
-import 'package:sahibullab/src/widgets/app_card.dart';
 import 'package:sahibullab/src/widgets/app_tabbar.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 import '../settings/app_theme.dart';
 

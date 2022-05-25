@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "98953503316",
+    "project_id": "sahibulnf",
+    "storage_bucket": "sahibulnf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98953503316:android:162768f847593f021b43c1",
+        "android_client_info": {
+          "package_name": "com.sahibul_nf.my_portfolio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98953503316-gcmprcj9olthd7om3s9ivhki7qfh4q4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2XDDdmF3kJE4GvvIDfMPHP-GgeGNjmxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98953503316-gcmprcj9olthd7om3s9ivhki7qfh4q4c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
