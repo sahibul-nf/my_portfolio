@@ -1,1 +1,0 @@
- /Users/sahibul/Documents/flutter_project/my_portfolio/.dart_tool/flutter_gen/gen_l10n/app_localizations_en.dart /Users/sahibul/Documents/flutter_project/my_portfolio/.dart_tool/flutter_gen/gen_l10n/app_localizations.dart:  /Users/sahibul/Documents/flutter_project/my_portfolio/l10n.yaml /Users/sahibul/Documents/flutter_project/my_portfolio/lib/src/localization/app_en.arb
