@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sahibullab/src/views/about_view.dart';
 import 'package:sahibullab/src/views/stories_view.dart';
 import 'package:sahibullab/src/views/works_view.dart';
 import 'package:sahibullab/src/widgets/app_card.dart';
-import 'package:sahibullab/src/widgets/link_item.dart';
+import 'package:sahibullab/src/views/links_view.dart';
 import 'package:sahibullab/src/widgets/work_card.dart';
 import 'package:unicons/unicons.dart';
 
@@ -20,7 +21,7 @@ List<TabPair> TabPairs = [
     tab: const Tab(
       text: "Links 🔗",
     ),
-    view: LinkItem(),
+    view: LinksView(),
   ),
   TabPair(
     tab: const Tab(
@@ -94,7 +95,15 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
             ),
             boxShadow: [AppShadow.card],
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: EdgeInsets.symmetric(
+            horizontal: getValueForScreenType<double>(
+              context: context,
+              mobile: 20,
+              tablet: 80,
+              desktop: 60,
+            ),
+            vertical: 20,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 8,

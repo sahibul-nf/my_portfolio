@@ -13,7 +13,8 @@ class Helpers {
     'java',
     'supabase',
     'firebase',
-    'figma'
+    'heroku',
+    'figma',
   ];
 
   static String getTechImage(String tech) {
@@ -34,6 +35,8 @@ class Helpers {
         return "https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/supabase-colored.svg";
       case "figma":
         return "https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/figma-colored.svg";
+      case "heroku":
+        return "https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/heroku-colored.svg";
       default:
         return "assets/images/2.0x/flutter_logo.png";
     }

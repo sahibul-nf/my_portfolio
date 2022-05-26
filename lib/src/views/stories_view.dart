@@ -10,26 +10,32 @@ class StoriesView extends StatelessWidget {
   StoriesView({Key? key}) : super(key: key);
 
   final controller = Get.put(StoriesController());
+  static const routeName = "/stories";
 
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
       mobile: (context) => ListView.separated(
         // physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(
+          horizontal: getValueForScreenType<double>(
+            context: context,
+            mobile: 20,
+            tablet: 80,
+            desktop: 60,
+          ),
+          vertical: 10,
+        ),
         itemBuilder: (context, index) {
           var item = controller.stories[index];
 
-          return InkWell(
+          return StorieCard(
+            logoUrl: item.logo ?? "",
+            title: item.title ?? "",
+            author: item.author ?? "",
+            pubDate: item.datePublished ?? "",
+            thumbnailUrl: item.thumbnail ?? "",
             onTap: () => Helpers.launchURL(item.link.toString()),
-            child: StorieCard(
-              logoUrl: item.logo ?? "",
-              title: item.title ?? "",
-              author: item.author ?? "",
-              pubDate: item.datePublished ?? "",
-              thumbnailUrl: item.thumbnail ?? "",
-              onTap: () => Helpers.launchURL(item.link.toString()),
-            ),
           );
         },
         separatorBuilder: (context, index) {

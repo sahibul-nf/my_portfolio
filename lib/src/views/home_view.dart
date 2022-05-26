@@ -1,11 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sahibullab/src/controllers/user_controller.dart';
-import 'package:sahibullab/src/helpers/helpers.dart';
 import 'package:sahibullab/src/widgets/app_tabbar.dart';
+import 'package:sahibullab/src/widgets/header.dart';
+import 'package:sahibullab/src/widgets/nav_item.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../settings/app_theme.dart';
 
@@ -15,239 +16,194 @@ class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
   final controller = Get.put(UserController());
+  static const routeName = "/";
 
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
-      mobile: (context) => Scaffold(
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: Stack(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 120),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [AppShadow.card],
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      height: 140,
-                      width: 140,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Obx(
-                          () => controller.isLoading.value
-                              ? Center(
-                                  child: SpinKitFadingCircle(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                )
-                              : CachedNetworkImage(
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    "assets/images/my-snf.jpeg",
-                                    fit: BoxFit.cover,
-                                  ),
-                                  imageUrl: controller.user.value.avatarUrl
-                                      .toString(),
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Obx(
-                      () => controller.isLoading.value
-                          ? Center(
-                              child: SpinKitThreeBounce(
-                                color: Theme.of(context).primaryColor,
-                                size: 20,
-                              ),
-                            )
-                          : Text(
-                              "👋  hi, I am ${controller.user.value.name?.split(' ').first}",
-                              style: AppTextStyle.title,
-                              textAlign: TextAlign.center,
-                            ),
-                    ),
-                    const SizedBox(height: 6),
-                    Obx(
-                      () => controller.isLoading.value
-                          ? Center(
-                              child: SpinKitThreeBounce(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.2),
-                                size: 20,
-                              ),
-                            )
-                          : Text(
-                              "Software Developer",
-                              style: AppTextStyle.small.copyWith(
-                                color: Colors.grey,
-                              ),
-                            ),
-                    ),
-                    const SizedBox(height: 60),
-                    InkWell(
-                      onTap: () => Helpers.launchURL(
-                          "https://api.whatsapp.com/send?phone=6282370083327"),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(1.0),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [AppShadow.card],
-                          border: Border.all(
-                            color: Colors.grey.shade100,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 25,
-                        ),
-                        child: Text(
-                          "💬  Whatsapp",
-                          style: AppTextStyle.normal.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+      mobile: (context) => HomeMoible(controller: controller),
+      tablet: (context) => HomeTablet(controller: controller),
+      desktop: (context) => HomeDesktop(controller: controller),
+    );
+  }
+}
+
+class HomeMoible extends StatelessWidget {
+  const HomeMoible({Key? key, required this.controller}) : super(key: key);
+  final UserController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SnappingSheet(
+        grabbingHeight: 40,
+        initialSnappingPosition: const SnappingPosition.factor(
+          positionFactor: 0.5,
+          snappingCurve: Curves.easeOutExpo,
+          snappingDuration: Duration(seconds: 1),
+          grabbingContentOffset: GrabbingContentOffset.top,
+        ),
+        snappingPositions: const [
+          SnappingPosition.factor(
+            positionFactor: 0.15,
+            snappingCurve: Curves.easeOutExpo,
+            snappingDuration: Duration(seconds: 1),
+            grabbingContentOffset: GrabbingContentOffset.top,
+          ),
+          SnappingPosition.factor(
+            positionFactor: 0.9,
+            snappingCurve: Curves.easeOutExpo,
+            snappingDuration: Duration(seconds: 1),
+            grabbingContentOffset: GrabbingContentOffset.top,
+          ),
+        ],
+        child: HeaderMobile(
+          controller: controller,
+        ),
+        sheetBelow: SnappingSheetContent(
+          draggable: true,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
               ),
-              DraggableScrollableSheet(
-                initialChildSize: 0.55,
-                maxChildSize: 0.9,
-                minChildSize: 0.4,
-                snap: true,
-                builder: (context, scrollController) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                      color: Colors.white,
-                      boxShadow: [AppShadow.card],
-                    ),
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        child: const TabBarAndTabViews(),
-                      ),
-                    ),
-                  );
-                },
-              )
-            ],
+              color: Colors.white,
+              boxShadow: [AppShadow.card],
+            ),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: const TabBarAndTabViews(),
+              ),
+            ),
           ),
         ),
       ),
-      desktop: (context) => Scaffold(
-        body: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 120),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [AppShadow.card],
-                borderRadius: BorderRadius.circular(30),
-              ),
-              height: 140,
-              width: 140,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Obx(
-                  () => controller.isLoading.value
-                      ? Center(
-                          child: SpinKitFadingCircle(
-                            color: Theme.of(context).primaryColor,
+    );
+  }
+}
+
+class HomeDesktop extends StatelessWidget {
+  const HomeDesktop({Key? key, required this.controller}) : super(key: key);
+  final UserController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            title: Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.1),
+              child: Container(
+                height: 70,
+                width: 140,
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: () => Get.toNamed(HomeView.routeName),
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.centerLeft,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/item2.svg",
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(1.0),
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            text: "Sahi ",
+                            style: AppTextStyle.title.copyWith(
+                              color: ColorPalletes.bgDarkColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: " bul",
+                                style: AppTextStyle.title.copyWith(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
                           ),
                         )
-                      : CachedNetworkImage(
-                          errorWidget: (context, url, error) => Image.asset(
-                            "assets/images/my-snf.jpeg",
-                            fit: BoxFit.cover,
-                          ),
-                          imageUrl: controller.user.value.avatarUrl.toString(),
-                          fit: BoxFit.cover,
-                        ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Obx(
-              () => controller.isLoading.value
-                  ? Center(
-                      child: SpinKitThreeBounce(
-                        color: Theme.of(context).primaryColor,
-                        size: 20,
-                      ),
-                    )
-                  : Text(
-                      "👋  hi, I am ${controller.user.value.name?.split(' ').first}",
-                      style: AppTextStyle.title,
-                      textAlign: TextAlign.center,
+                      ],
                     ),
-            ),
-            const SizedBox(height: 6),
-            Obx(
-              () => controller.isLoading.value
-                  ? Center(
-                      child: SpinKitThreeBounce(
-                        color: Theme.of(context).primaryColor.withOpacity(0.2),
-                        size: 20,
-                      ),
-                    )
-                  : Text(
-                      "Software Developer",
-                      style: AppTextStyle.small.copyWith(
-                        color: Colors.grey,
-                      ),
-                    ),
-            ),
-            const SizedBox(height: 60),
-            InkWell(
-              onTap: () => Helpers.launchURL(
-                  "https://api.whatsapp.com/send?phone=6282370083327"),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(1.0),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [AppShadow.card],
-                  border: Border.all(
-                    color: Colors.grey.shade100,
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 25,
-                ),
-                child: Text(
-                  "💬  Whatsapp",
-                  style: AppTextStyle.normal.copyWith(
-                    color: Colors.white,
                   ),
                 ),
               ),
-            )
-          ],
+            ),
+            actions: [
+              const NavItem(),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+            ],
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                HeaderDesktop(controller: controller),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class HomeTablet extends StatelessWidget {
+  const HomeTablet({Key? key, required this.controller}) : super(key: key);
+  final UserController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SnappingSheet(
+        grabbingHeight: 40,
+        initialSnappingPosition: const SnappingPosition.factor(
+          positionFactor: 0.5,
+          snappingCurve: Curves.easeOutExpo,
+          snappingDuration: Duration(seconds: 1),
+          grabbingContentOffset: GrabbingContentOffset.top,
+        ),
+        snappingPositions: const [
+          SnappingPosition.factor(
+            positionFactor: 0.15,
+            snappingCurve: Curves.easeOutExpo,
+            snappingDuration: Duration(seconds: 1),
+            grabbingContentOffset: GrabbingContentOffset.top,
+          ),
+          SnappingPosition.factor(
+            positionFactor: 0.9,
+            snappingCurve: Curves.easeOutExpo,
+            snappingDuration: Duration(seconds: 1),
+            grabbingContentOffset: GrabbingContentOffset.top,
+          ),
+        ],
+        child: HeaderMobile(controller: controller),
+        sheetBelow: SnappingSheetContent(
+          draggable: true,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+              color: Colors.white,
+              boxShadow: [AppShadow.card],
+            ),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: const TabBarAndTabViews(),
+              ),
+            ),
+          ),
         ),
       ),
-      tablet: (context) => Container(),
     );
   }
 }
