@@ -11,6 +11,7 @@ environment:
 
 dependencies:
   animate_do: ^2.1.0
+  animated_text_kit: ^4.2.1
   cached_network_image: ^3.2.0
   cloud_firestore: ^3.1.16
   flutter:
@@ -45,4 +46,5 @@ flutter:
     - assets/images/
     - assets/images/2.0x/
     - assets/images/3.0x/
+    - assets/images/cover/
     - assets/icons/

@@ -19,16 +19,16 @@ abstract class AppTheme {
     backgroundColor: ColorPalletes.bgColor,
     scaffoldBackgroundColor: ColorPalletes.bgColor,
     // primaryColor: settingController.primaryColor.value,
-    cardColor: Colors.white,
+    cardColor: Colors.grey.shade100,
     // iconTheme: IconThemeData(
     //   color: settingController.primaryColor.value,
     // ),
     appBarTheme: const AppBarTheme(
-      // backgroundColor: settingController.primaryColor.value,
-    ),
+        // backgroundColor: settingController.primaryColor.value,
+        ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      // selectedItemColor: settingController.primaryColor.value,
-    ),
+        // selectedItemColor: settingController.primaryColor.value,
+        ),
   );
 
   static final dark = ThemeData.dark().copyWith(
@@ -58,9 +58,21 @@ abstract class AppTextStyle {
     letterSpacing: 0.5,
   );
 
+  static var bigTitleDesktop = GoogleFonts.montserrat(
+    fontWeight: FontWeight.w700,
+    fontSize: 36,
+    letterSpacing: 0.5,
+  );
+
   static var title = GoogleFonts.poppins(
     fontWeight: FontWeight.w600,
     fontSize: 16,
+    letterSpacing: 0.5,
+  );
+
+  static var titleDesktop = GoogleFonts.montserrat(
+    fontWeight: FontWeight.w600,
+    fontSize: 32,
     letterSpacing: 0.5,
   );
 
@@ -70,10 +82,24 @@ abstract class AppTextStyle {
     letterSpacing: 0.5,
   );
 
+  static var normalDesktop = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    letterSpacing: 0.5,
+    color: Colors.grey,
+  );
+
   static var small = GoogleFonts.poppins(
     fontWeight: FontWeight.w400,
     fontSize: 13,
     letterSpacing: 0.3,
+  );
+
+  static var smallDesktop = GoogleFonts.poppins(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: Colors.grey,
+    letterSpacing: 0.5,
   );
 }
 

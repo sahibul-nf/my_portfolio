@@ -1,8 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sahibullab/src/controllers/user_controller.dart';
 import 'package:sahibullab/src/helpers/helpers.dart';
 import 'package:sahibullab/src/settings/app_theme.dart';
@@ -29,18 +29,33 @@ class HeaderDesktop extends StatelessWidget {
               children: [
                 Text(
                   "hi 👋, I am Sahibul",
-                  style: AppTextStyle.bigTitle.copyWith(
-                    fontSize: 32,
-                  ),
+                  style: AppTextStyle.bigTitleDesktop,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  "Software Developer",
-                  style: AppTextStyle.normal.copyWith(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
+                // Text(
+                //   "Software Developer",
+                //   style: AppTextStyle.normalDesktop,
+                // ),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      "Software Developer",
+                      textStyle: AppTextStyle.normalDesktop,
+                      speed: 150.milliseconds,
+                    ),
+                    TypewriterAnimatedText(
+                      "Designer",
+                      textStyle: AppTextStyle.normalDesktop,
+                      speed: 150.milliseconds,
+                    ),
+                    TypewriterAnimatedText(
+                      "Flutter Developer",
+                      textStyle: AppTextStyle.normalDesktop,
+                      speed: 150.milliseconds,
+                    ),
+                  ],
+                  repeatForever: true,
                 ),
                 const SizedBox(height: 20),
                 Obx(
@@ -58,10 +73,7 @@ class HeaderDesktop extends StatelessWidget {
                           ),
                           child: Text(
                             controller.user.value.about!,
-                            style: AppTextStyle.small.copyWith(
-                              color: Colors.grey,
-                              letterSpacing: 0.5,
-                            ),
+                            style: AppTextStyle.smallDesktop,
                           ),
                         ),
                 ),

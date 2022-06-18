@@ -6,6 +6,8 @@ import 'package:sahibullab/src/controllers/user_controller.dart';
 import 'package:sahibullab/src/widgets/app_tabbar.dart';
 import 'package:sahibullab/src/widgets/header.dart';
 import 'package:sahibullab/src/widgets/nav_item.dart';
+import 'package:sahibullab/src/widgets/tech_stack.dart';
+import 'package:sahibullab/src/widgets/work.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../settings/app_theme.dart';
@@ -94,6 +96,8 @@ class HomeDesktop extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            pinned: true,
+            elevation: 0,
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             title: Padding(
@@ -145,6 +149,8 @@ class HomeDesktop extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 HeaderDesktop(controller: controller),
+                const TechStackDesktop(),
+                WorkDesktop(),
               ],
             ),
           )
