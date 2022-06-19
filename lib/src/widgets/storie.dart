@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
-import 'package:sahibullab/src/controllers/works_controller.dart';
+import 'package:sahibullab/src/controllers/stories_controller.dart';
 import 'package:sahibullab/src/helpers/helpers.dart';
 import 'package:sahibullab/src/settings/app_theme.dart';
-import 'package:sahibullab/src/widgets/work_card.dart';
+import 'package:sahibullab/src/widgets/storie_card.dart';
 
-class WorkDesktop extends StatelessWidget {
-  WorkDesktop({Key? key}) : super(key: key);
+class StorieDesktop extends StatelessWidget {
+  StorieDesktop({Key? key}) : super(key: key);
 
-  final controller = Get.put(WorksController());
+  final controller = Get.put(StoriesController());
 
   @override
   Widget build(BuildContext context) {
-    // var item = controller.works[index];
-
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 140,
         horizontal: MediaQuery.of(context).size.width * 0.15,
       ),
+      color: Colors.grey.shade100,
       child: Column(
         children: [
           Text(
-            'My Works',
+            'My Stories',
             style: AppTextStyle.titleDesktop,
           ),
           Container(
@@ -38,18 +37,15 @@ class WorkDesktop extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [
-              for (var item in controller.works)
-                WorkCardDesktop(
-                  owner: item.owner!,
-                  thumbnailUrl: item.imageUrl!,
-                  title: item.title!,
-                  description: item.description!,
-                  color: item.techColor!,
-                  techStack: item.techStack!,
-                  stars: item.stars!,
-                  forks: item.forks!,
-                  website: item.website,
-                  toCode: () => Helpers.launchURL(item.link!),
+              for (var item in controller.stories)
+                StorieCardDesktop(
+                  logoUrl: item.logo ?? "",
+                  feedTitle: item.feedTitle ?? "",
+                  title: item.title ?? "",
+                  author: item.author ?? "",
+                  pubDate: item.datePublished ?? "",
+                  thumbnailUrl: item.thumbnail ?? "",
+                  onTap: () => Helpers.launchURL(item.link.toString()),
                 ),
             ],
           )

@@ -1,5 +1,6 @@
 class Storie {
   String? title;
+  String? feedTitle;
   String? link;
   String? logo;
   String? author;
@@ -9,6 +10,7 @@ class Storie {
 
   Storie({
     required this.logo,
+    required this.feedTitle,
     this.title,
     this.link,
     this.author,

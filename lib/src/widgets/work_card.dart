@@ -210,7 +210,7 @@ class WorkCardDesktop extends StatelessWidget {
     required this.stars,
     required this.forks,
     required this.toCode,
-    required this.toLive,
+    required this.website,
   }) : super(key: key);
   final String techStack;
   final String title;
@@ -221,7 +221,7 @@ class WorkCardDesktop extends StatelessWidget {
   final String stars;
   final String forks;
   final void Function() toCode;
-  final void Function() toLive;
+  final String? website;
 
   @override
   Widget build(BuildContext context) {
@@ -266,13 +266,13 @@ class WorkCardDesktop extends StatelessWidget {
                 ? Image.asset(
                     Helpers.getCoverImage(_title)!,
                     width: double.infinity,
-                    height: 250,
+                    height: 270,
                     fit: BoxFit.cover,
                   )
                 : CachedNetworkImage(
                     imageUrl: thumbnailUrl,
                     width: double.infinity,
-                    height: 250,
+                    height: 270,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Center(
                       child: SpinKitFadingCircle(
@@ -383,7 +383,9 @@ class WorkCardDesktop extends StatelessWidget {
                         // ),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 10),
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
                       child: InkWell(
                         onTap: toCode,
                         child: Row(
@@ -405,29 +407,32 @@ class WorkCardDesktop extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    InkWell(
-                      onTap: toLive,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: _color,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [AppShadow.card],
-                          // border: Border.all(
-                          //   color: Colors.grey.shade100,
-                          // ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 25,
-                        ),
-                        child: Text(
-                          "🚀  Live",
-                          style: AppTextStyle.normal.copyWith(
-                            color: Colors.white,
+                    if (website!.isNotEmpty)
+                      InkWell(
+                        onTap: () {
+                          Helpers.launchURL(website!);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: _color,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [AppShadow.card],
+                            // border: Border.all(
+                            //   color: Colors.grey.shade100,
+                            // ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 25,
+                          ),
+                          child: Text(
+                            "🚀  Live",
+                            style: AppTextStyle.normal.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 )
               ],

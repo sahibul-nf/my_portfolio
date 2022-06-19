@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sahibullab/src/controllers/user_controller.dart';
 import 'package:sahibullab/src/helpers/helpers.dart';
@@ -22,7 +23,7 @@ class HeaderDesktop extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +70,7 @@ class HeaderDesktop extends StatelessWidget {
                         )
                       : Padding(
                           padding: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.width * 0.15,
+                            right: MediaQuery.of(context).size.width * 0.1,
                           ),
                           child: Text(
                             controller.user.value.about!,
@@ -105,35 +106,50 @@ class HeaderDesktop extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            // margin: const EdgeInsets.only(top: 120),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [AppShadow.card],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            height: 200,
-            width: 200,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Obx(
-                () => controller.isLoading.value
-                    ? Center(
-                        child: SpinKitFadingCircle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      )
-                    : CachedNetworkImage(
-                        errorWidget: (context, url, error) => Image.asset(
-                          "assets/images/my-snf.jpeg",
-                          fit: BoxFit.cover,
-                        ),
-                        imageUrl: controller.user.value.avatarUrl.toString(),
-                        fit: BoxFit.cover,
-                      ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Transform.rotate(
+                angle: 90,
+                child: SvgPicture.asset(
+                  "assets/item2.svg",
+                  color: Colors.white,
+                  width: 350,
+                  height: 350,
+                ),
               ),
-            ),
+              Container(
+                // margin: const EdgeInsets.only(top: 120),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [AppShadow.card],
+                  borderRadius: BorderRadius.circular(250),
+                ),
+                height: 220,
+                width: 220,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(250),
+                  child: Obx(
+                    () => controller.isLoading.value
+                        ? Center(
+                            child: SpinKitFadingCircle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                        : CachedNetworkImage(
+                            errorWidget: (context, url, error) => Image.asset(
+                              "assets/images/my-snf.jpeg",
+                              fit: BoxFit.cover,
+                            ),
+                            imageUrl:
+                                controller.user.value.avatarUrl.toString(),
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

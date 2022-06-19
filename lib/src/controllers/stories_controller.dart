@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:sahibullab/src/repositories/stories_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../entities/storie.dart';
 
@@ -20,7 +19,8 @@ class StoriesController extends GetxController {
     StoriesRepository.fetchFeed(mediumRssFeed).then((feed) {
       if (feed != null) {
         for (var item in feed.items) {
-          Storie _storie = Storie(logo: feed.feed.image);
+          Storie _storie =
+              Storie(logo: feed.feed.image, feedTitle: feed.feed.title);
           _storie.title = item.title;
           _storie.link = item.link;
           _storie.thumbnail = item.thumbnail;
@@ -39,7 +39,8 @@ class StoriesController extends GetxController {
     StoriesRepository.fetchFeed(devDotRssFeed).then((feed) {
       if (feed != null) {
         for (var item in feed.items) {
-          Storie _storie = Storie(logo: feed.feed.image);
+          Storie _storie =
+              Storie(logo: feed.feed.image, feedTitle: feed.feed.title);
           _storie.title = item.title;
           _storie.link = item.link;
           _storie.thumbnail = item.thumbnail;
@@ -55,10 +56,11 @@ class StoriesController extends GetxController {
     });
 
     // Hashnode Blog Storie
-    StoriesRepository.fetchFeed(mediumRssFeed).then((feed) {
+    StoriesRepository.fetchFeed(hashnodeRssFeed).then((feed) {
       if (feed != null) {
         for (var item in feed.items) {
-          Storie _storie = Storie(logo: feed.feed.image);
+          Storie _storie =
+              Storie(logo: feed.feed.image, feedTitle: feed.feed.title);
           _storie.title = item.title;
           _storie.link = item.link;
           _storie.thumbnail = item.thumbnail;
